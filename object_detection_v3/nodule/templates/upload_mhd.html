@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>文件上传</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width , initial-scale=1.0 , user-scalable=0 , minimum-scale=1.0 , maximum-scale=1.0" />
+<script type='text/javascript' src='../static/js/jquery-2.0.3.min.js'></script>
+<script type='text/javascript' src='../static/js/jquery.form.js'></script>
+<link href="../static/css/upload.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<div id="upload">
+<a href="{{ url_for('hello_world') }}">首页</a>
+</div>
+<div id="upload">
+注意:
+1.上传的文件单文件不能超过4G；<br>
+</div>
+
+<div id="upbt">
+<div id="btn">
+    <input type="button" class="uploadbtn" value="选择文件" onClick="uploadphoto.click()" id="select">
+    <input type="submit"   value="开始上传"  id="ups"></div>
+</div>
+<div style="width:940px;margin:10px auto;   overflow:hidden; margin-top:10px;">
+  <form id='myupload' action='{{ url_for('upload_file') }}' method='post' enctype='multipart/form-data'>
+    <input type="file" id="uploadphoto"  name="uploadfile" value="请点击上传图片" style="display:none" onChange="filesize(this)" />
+  </form> 
+  
+<table width="100%" border="0" id="table" cellpadding="1" cellspacing="1">
+  <tr bgcolor="#4a5464" align="center" >
+    <td width="27%">文件名</td>
+    <td width="17%">文件大小</td>
+	<td width="30%">上传进度</td>
+    <td width="12%">上传状态</td>
+    <td width="14%">操作</td> 
+  </tr> 
+  <tr id="list" style="background:url(static/css/bg.jpg); display:none;">
+    <td><div id="text"></div></td>
+    <td><div id="big"></div></td>
+	<td><div class="progress">
+    <div class="progress-bar progress-bar-striped" ><span class="percent">0%</span></div>
+  </div> </td>
+    <td><div id="uped">等待上传</div></td>
+    <td><a href="javascript:viod(0)" id="del">移除</a></td> 
+  </tr> 
+</table>
+</div>
+<script type="text/javascript">
+ function filesize(ele) { 
+    var filesize = (ele.files[0].size / 1024/1024).toFixed(2);   
+	$('#big').html(filesize+"MB");
+	$('#text').html(ele.files[0].name);
+}  
+$(document).ready(function(e) {
+   var progress = $(".progress");
+   var progress_bar = $(".progress-bar");
+   var percent = $('.percent');
+    $("#del").click(function(){
+	var objFile=document.getElementsByTagName('input')[2];
+     objFile.value="";
+	 $("#list").hide();
+	});
+    $("#uploadphoto").change(function(){
+		$("#list").show();
+	});
+   $("#ups").click(function(){
+   var file = $("#uploadphoto").val();
+   if(file!=""){
+     $('#uped').html("上传");
+  	 $("#myupload").ajaxSubmit({
+  		dataType:  'json',
+  		beforeSend: function() {
+  			var percentVal = '0%';
+  			progress_bar.width(percentVal);
+  			percent.html(percentVal);
+  		},
+  		uploadProgress: function(event, position, total, percentComplete) {
+  			var percentVal = percentComplete + '%'; //获得进度
+  			progress_bar.width(percentVal); //上传进度条宽度变宽
+  			percent.html(percentVal); //显示上传进度百分比
+  		},
+  		success: function(data) {
+			if(data.status == 1){
+				var src = data.url;
+				$('#uped').html("");
+			}else{
+				$(".res").html(data.content);
+			}
+  		}
+  		,
+  		error:function(xhr){
+  		   alert("上传并解压转换！");
+  		}
+  	});
+	}
+	else{
+	 alert("请选择mhd文件！");
+	}
+   });
+
+});
+</script>
+</body>
+</html>

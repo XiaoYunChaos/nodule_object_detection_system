@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html >
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>基于神经网络的肺结节检测和反馈系统</title>
+        <!-- add styles -->
+        <link href="../static/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="../static/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- add scripts -->
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/jquery.Jcrop.min.js"></script>
+        <script src="../static/js/script.js"></script>
+
+    <script type="text/javascript">
+$(function(){
+
+	$("input[type=file]").change(function(){
+		$(this).parents(".uploader").find(".filename").val($(this).val());
+	});
+
+	$("input[type=file]").each(function(){
+		if($(this).val()==""){
+			$(this).parents(".uploader").find(".filename").val("请选择文件...");
+		}
+	});
+
+});
+</script>
+
+    <style type="text/css">
+        #menu {
+            font:18px verdana, arial, sans-serif; /* 设置文字大小和字体样式 */
+            width: 500px;
+        }
+        #menu, #menu li {
+            list-style:none; /* 将默认的列表符号去掉 */
+            padding:0; /* 将默认的内边距去掉 */
+            margin:0; /* 将默认的外边距去掉 */
+            {#float:left; /* 往左浮动 */#}
+            display: block;
+        }
+        #menu li a {
+            display:inline-block; /* 将链接设为块级元素 */
+            width:150px; /* 设置宽度 */
+            height:30px; /* 设置高度 */
+            line-height:30px; /* 设置行高，将行高和高度设置同一个值，可以让单行文本垂直居中 */
+            text-align:center; /* 居中对齐文字 */
+            background: #36ffcc; /* 设置背景色 */
+            color:#00ff00; /* 设置文字颜色 */
+            text-decoration:none; /* 去掉下划线 */
+            border-right:1px solid #000; /* 在左侧加上分隔线 */
+        }
+        #menu li a:hover {
+            background:#146C9C; /* 变换背景色 */
+            color:#0f0f0f; /* 变换文字颜色 */
+        }
+        #menu li a.last {
+            border-right:0; /* 去掉左侧边框 */
+        }
+</style>
+
+
+</head>
+<body>
+    <div>
+        <div >
+            <div >
+                    <ul id="menu"  >
+        <li ><a href="{{ url_for('hello_world') }}"><font color="fff">首页</font></a></li>
+        <li><a href="{{ url_for('mhd') }}"><font color="fff" >mhd</font></a></li>
+       <li><a href="{{ url_for('logout') }}"><font color="fff" >注销</font></a></li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+        <div class="demo" style=" margin-top:60px;">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" data-0="margin-top:20px;" data-300="margin-top:5px;">
+        {% if user %}
+           <li class="active"><font color="black" ><h3>欢迎您登录肺结节检测系统!</h3></font></li>
+          {% else %}
+
+          {% endif %}
+             </ul>
+        </div>
+
+            <div class="bheader"><h1>基于神经网络的肺结节检测和反馈系统</h1></div>
+{#            <div class="bheader">#}
+{#                <ul>#}
+{#                    <h2>#}
+{#                        <a href="{{ url_for('logout') }}"><font color="black" >注销</font></a>#}
+{#                        &nbsp;&nbsp;&nbsp;#}
+{#                        <a href="{{ url_for('mhd') }}"><font color="black" >mhd</font></a>#}
+{#                    </h2>#}
+{#                 </ul>#}
+{#            </div>#}
+
+            <div class="bheader"><h3>——上传您的图像——</h3></div>
+            <div class="bbody">
+
+                <!-- upload form -->
+                <form  action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+                    <!-- hidden crop params -->
+                    <input type="hidden" id="x1" name="x1" />
+                    <input type="hidden" id="y1" name="y1" />
+                    <input type="hidden" id="x2" name="x2" />
+                    <input type="hidden" id="y2" name="y2" />
+
+{#                    <h2>第一步:请选择需要上传图像文件</h2>#}
+                    <div><input type="file" name="image_file" id="image_file" onchange="fileSelectHandler()" /></div>
+
+                    <div class="error"></div>
+
+                    <div class="step2">
+                        <h3>请选择需要截图的部位,然后按上传</h3>
+                        <img id="preview" />
+
+                        <div class="info">
+                            <label>文件大小</label> <input type="text" id="filesize" name="filesize" />
+                            <label>类型</label> <input type="text" id="filetype" name="filetype" />
+                            <label>图像尺寸</label> <input type="text" id="filedim" name="filedim" />
+                            <label>宽度</label> <input type="text" id="w" name="w" />
+                            <label>高度</label> <input type="text" id="h" name="h" />
+                        </div>
+
+                        <input type="submit" value="确定上传" />
+{#                        <button type="submit" class="btn btn-success">确定上传</button>#}
+                    </div>
+                </form>
+            </div>
+        </div>
+</body>
+</html>

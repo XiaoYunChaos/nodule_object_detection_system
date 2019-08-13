@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html >
+    <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>基于神经网络的肺结节检测和反馈系统</title>
+        <!-- add styles -->
+        <link href="../static/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="../static/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+         <link href="../static/assets/css/bootstrap_.css" rel="stylesheet">
+        <link href="../static/assets/css/theme.css" rel="stylesheet">
+
+        <!-- add scripts -->
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/jquery.Jcrop.min.js"></script>
+        <script src="../static/js/script.js"></script>
+
+<style type="text/css">
+<!--
+/************ Table ************/
+.xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;text-align: center;}
+.xwtable thead td {font-size: 20px;color: #000000;text-align: center; repeat-x top center;border: 1px solid #000000; font-weight:bold;}
+.xwtable tbody tr {background: #fff;font-size: 12px;color: #666666; text-align: center;}
+.xwtable tbody tr.alt-row {background: #f2f7fc; text-align: center;}
+.xwtable td{line-height:50px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc; }
+.tr1 {background: #fff;font-size: 80px;color: #666666; text-align: center}
+-->
+</style>
+</head>
+
+<body>
+<div id="particles-js">
+       <tr class="tr1" align="center"  bgcolor="#ff8c00" align="center">
+            <font size="80px"  >      Prediction Result</font>
+       </tr>
+<header id="site-header">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6 col-sm-8">
+                <nav id="site-nav" class="nav navbar-default" >
+                    <ul class="nav navbar-nav">
+          <li><a href="{{ url_for('hello_world') }}"><font color="000">首页</font></a></li>
+          <li><a href="{{ url_for('pred') }}"><font color="000">模型1预测</font></a>
+          <li><a href="{{ url_for('pred2') }}"><font color="000">模型2预测</font></a>
+          <li><a href="{{ url_for('reset') }}"><font color="000">重新标注</font></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <table  class="xwtable" style="text-align: center;">
+            <tbody>
+       <thead>
+              <tr>
+                <td width="45%"  height="50px">原图</td>
+                <td width="45%"  height="50px">肿瘤预测图</td>
+              </tr>
+
+               <tr>
+                <td width="200px" height="50px"><img  width="512px" height="512px" src={{ org_path }}  /></td>
+                <td width="400px"  height="600px">
+                    {%  if predict_path %}
+                    <img  width="512px" height="512px" src={{ predict_path }}  />
+                    {%  else  %}
+                        {% if flag !=0 %}
+                        <h1>图片待预测.....</h1>
+                <form action="{{ url_for('predict2') }}" method="post" enctype="multipart/form-data">
+                <input type="submit" value="模型2预测" />
+                </form>
+                            {% else %}
+
+                            <h1>待重新标注.....</h1>
+                <form action="{{ url_for('set') }}" method="get" enctype="multipart/form-data">
+                  <table style="width: 200px">
+                      <tr >
+{#                          <td align="center" width="200px">#}
+                          <input name="possi" type="text" class="form-control" id="possi" placeholder="请输入重置的概率" required/>
+{#                         </td>#}
+                      </tr>
+
+                   </table>
+                       <input type="submit"  value="确认重置" />
+                </form>
+                            {% endif %}
+
+                    {%  endif %}
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+     </div>
+</body>
+</html>
+

@@ -1,0 +1,8 @@
+* {box-sizing:border-box;font-size: 16px;vertical-align: middle;}
+/* æ¸…é™¤çŽ°ä»£IEæµè§ˆå™¨çš„è¾“å…¥æ¡†å’Œå¯†ç æ¡†çš„é»˜è®¤äº¤äº’æŒ‰é’® */
+::-ms-clear, ::-ms-reveal{display: none;}
+input {box-sizing:border-box;}
+input:active, input:focus{ outline:none; -moz-outline:none;} /* PC chromeæ–‡æœ¬è¾“å…¥æ¡†çš„è¾¹æ¡†ç„¦ç‚¹æ—¶å€™çš„é¢œè‰² */
+input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner{ border:none;} /*åŽ»æŽ‰ç§»åŠ¨ç«¯firefox æŒ‰é’®èŽ·å¾—ç„¦ç‚¹æ˜¾ç¤ºè™šçº¿æ¡†çš„æ ·å¼ */
+
+/* main style */

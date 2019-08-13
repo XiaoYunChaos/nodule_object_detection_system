@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html >
+    <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>基于神经网络的肺结节检测和反馈系统</title>
+        <!-- add styles -->
+        <link href="../static/css/main.css" rel="stylesheet" type="text/css" />
+        <link href="../static/css/jquery.Jcrop.min.css" rel="stylesheet" type="text/css" />
+        <link href="../static/assets/css/bootstrap_.css" rel="stylesheet">
+        <link href="../static/assets/css/theme.css" rel="stylesheet">
+
+        <!-- add scripts -->
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/jquery.Jcrop.min.js"></script>
+        <script src="../static/js/script.js"></script>
+
+<style type="text/css">
+<!--
+/************ Table ************/
+.xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;text-align: center;}
+.xwtable thead td {font-size: 20px;color: #000000;text-align: center; repeat-x top center;border: 1px solid #000000; font-weight:bold;}
+.xwtable tbody tr {background: #fff;font-size: 12px;color: #666666; text-align: center;}
+.xwtable tbody tr.alt-row {background: #f2f7fc; text-align: center;}
+.xwtable td{line-height:50px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc; }
+.tr1 {background: #fff;font-size: 80px;color: #666666; text-align: center}
+-->
+</style>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"> </script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript"src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.1.js"></script>
+
+<script language="javascript" type="text/javascript">
+function m(){
+	document.getElementById("area").innerHTML=event.clientX +" , "+event.clientY;
+}
+function c(){
+	var objTop = getOffsetTop(document.getElementById("d"));//对象x位置
+	var objLeft = getOffsetLeft(document.getElementById("d"));//对象y位置
+	var mouseX = event.clientX+document.body.scrollLeft;//鼠标x位置
+	var mouseY = event.clientY+document.body.scrollTop;//鼠标y位置
+	//计算点击的相对位置
+	var objX = mouseX-objLeft;
+	var objY = mouseY-objTop;
+	clickObjPosition = objX + "," + objY;
+
+    var mydata=clickObjPosition;
+    $.ajax({
+        url: "{{ url_for('getjson') }}",
+        type: "POST",
+        data: JSON.stringify({mydata}),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data){
+        }
+
+    });
+    {#alert(mydata)#}
+}
+function getOffsetTop(obj){
+	var tmp = obj.offsetTop;
+	var val = obj.offsetParent;
+	while(val != null){
+		tmp += val.offsetTop;
+		val = val.offsetParent;
+	}
+	return tmp;
+}
+function getOffsetLeft(obj){
+	var tmp = obj.offsetLeft;
+	var val = obj.offsetParent;
+	while(val != null){
+		tmp += val.offsetLeft;
+		val = val.offsetParent;
+	}
+	return tmp;
+}
+</script>
+
+<script language="javascript">
+	//这是使图层移动的函数
+function move_layer(){
+	Layer1.style.left=event.clientX+document.body.scrollLeft-50;
+	Layer1.style.top=event.clientY+document.body.scrollTop-20;
+}
+	//这里的意思是，如果鼠标移动时就调用"move_layer"函数
+	document.onmousemove =move_layer;
+</script>
+ </head>
+
+
+<body>
+
+<div id="particles-js">
+
+       <tr class="tr1" align="center"  bgcolor="#ff8c00" align="center">
+            <font size="80px"  >      Prediction Result</font>
+       </tr>
+
+<header id="site-header">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6 col-sm-8">
+                <nav id="site-nav" class="nav navbar-default" >
+                    <ul class="nav navbar-nav">
+       <li  ><a href="{{ url_for('hello_world') }}"><font color="000">首页</font></a></li>
+{#        <li  ><a href="{{ url_for('pred') }}"><font color="000">模型预测</font></a>#}
+{#        <li  ><a href="{{ url_for('reset') }}"><font color="000">图片重置</font></a></li>#}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <table  class="xwtable" style="text-align: center;">
+
+            <tbody>
+       <thead>
+              <tr>
+{#                  <td width="10%"  height="50px" rowspan="2">相关信息</td>#}
+                <td width="45%"  height="50px">原图</td>
+                <td width="45%"  height="50px">肿瘤预测图</td>
+              </tr>
+
+               <tr>
+                <td width="512px" height="512px">
+
+      <img id="d" style="width:512px;height:512px;border:0px solid white;cursor:url(https://static.segmentfault.com/v-59ba2a42/global/img/user-64.png), auto;;" onclick="c()" width="512px" height="512px" src={{ org_path }}  />
+
+
+                </td>
+                <td width="400px"  height="600px">
+
+                    {% if path %}
+
+                         <img  width="512px" height="512px" src={{ path }}  />
+
+                        {% else %}
+
+                         <h1>待重置.....</h1>
+                        <a href="{{ url_for('show',possi = possi) }}"><font color="black">show</font></a>
+
+                    {% endif %}
+
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+     </div>
+</body>
+</html>
+

@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<title>用户注册</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- font files  -->
+<link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'>
+<!-- /font files  -->
+<!-- css files -->
+<link href="../static/css/style2.css" rel='stylesheet' type='text/css' media="all" />
+<!-- /css files -->
+
+<style>
+body {
+	padding: 0;
+	margin: 0;
+	font: 12px sans-serif;
+	background-color: #000;
+	overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}</style>
+
+<script src="../stitic/js/mdn.js"></script>
+
+<canvas id='c'></canvas>
+    <script>
+        function $(id)
+    {
+        return document.getElementById(id);
+    }
+
+    function validate()
+    {
+        var re = /[0-9a-zA-Z]{3,16}/; //用户名只能允许由数字和字母构成，长度为6-16个
+        var re2 = /^\S{6,16}$/; //密码只允许为非空的字符组成，且长度为6-16个。
+        var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+        if($("user").value=="" || $("user").value==null){
+            alert("用户名不能为空");
+            return false
+        }
+        if($("password1").value=="" || $("password1").value==null)
+            {
+                alert("密码不能为空");
+                return false;
+            }
+        if($("password2").value!=$("password1").value)
+            {
+                alert("两次密码输入不一致！");
+                return false;
+            }
+        alert("恭喜您注册成功！");
+        return true;
+    }
+    </script>
+
+</head>
+<body>
+
+<h1>基于神经网络的肺结节检测和反馈系统</h1>
+<div class="log">
+	<div class="content2">
+		<h2>用户注册</h2>
+		<form action="{{ url_for('regist') }}"  method="post">
+			<input type="text" name="user"  id="user" placeholder="用户名">
+			<input type="password" name="password1" id="password1" placeholder="输入您的密码">
+            <input type="password" name="password2" id="password2" placeholder="再次确认密码">
+			<input type="submit" class="register"  onclick="return validate()" value="注册">
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

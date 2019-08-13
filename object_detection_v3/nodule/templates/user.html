@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+<title>User Information</title>
+<style>  
+.keleyitable { width: 800px;  }
+.keleyitable table, td, th { border: 1px solid green;margin-top:10px;  }
+.klytd {width:150px;text-align:center;height:50px}
+.hvttd {  width:600px;height:50px;text-align:center;}
+</style>
+</head>  
+<body bgcolor="#000000"> 
+<font color="#FFFFFF">
+<div style="margin:0px auto;" class="keleyitable"><h2>User Information</h2>
+<a href="{{ url_for('admin') }}">注销</a>
+<table>
+<tbody>
+<tr><td class="klytd">注册ID</td>
+    <td class="klytd">注册用户</td>
+    <td class="hvttd">当前用户密码</td>
+    <td class="hvttd">备注</td>
+</tr>
+{%  if user_result %}
+     {% for user in user_result %}
+         {% if  user[1]=='root' or user[1]=='test' %}
+<tr>
+    <td class="klytd">{{ user[0] }}</td>
+    <td class="klytd">{{ user[1] }}</td>
+    <td class="hvttd">{{ user[2] }}</td>
+    <td class="hvttd">系统用户</td>
+</tr>
+
+         {% else %}
+<tr><td class="klytd">{{ user[0] }}</td>
+    <td class="klytd">{{ user[1] }}</td>
+    <td class="hvttd">{{ user[2] }}</td>
+    <td class="hvttd"><a href="{{ url_for('delete',name=user[1]+'  '+user[2]) }}">删除</a></td>
+</tr>
+         {% endif %}
+    {% endfor %}
+{%  else  %}
+{% endif %}
+</tbody></table>
+</div>  
+</font>
+</body></html>
